@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h2>List of courses</h2>
+
+<a href="/course"> New course </a><br><br>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for course in courses %}
+    <tr>
+        <th scope="row">{{course.kod}}</th>
+        <td><a href="{% url 'get_course' course.id %}">{{course}}</a></td>
+        <td><a class="text-success" href="{% url 'edit_course' course.id %}"> Edit </a></td>
+        <td><a class="text-danger" href="{% url 'destroy_course' course.id %}"> Delete </a></td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

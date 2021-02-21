@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>List of students:</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+    {% if not student.role == 'MENTOR' %}
+    <tr>
+        <th scope="row">{{student.id}}</th>
+        <td><a href="{% url 'indeks' student.id %}">{{student}}</a></td>
+        <td>{{student.status}}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

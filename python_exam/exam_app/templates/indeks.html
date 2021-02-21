@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="py-2">Paper for <b>{{student}}</b></h2>
+    <div class="row">
+        <div class="col col-md-6">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Available Subjects</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for id, subject in not_enrolled.items %}
+                <tr>
+                    <td class="d-flex align-items-center">
+                        <form action="{% url 'add_subject' subject_id=id student_id=student.id  %}"
+                              method="POST" class="d-inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn mr-2"><i class="bi bi-plus-square"></i>
+                            </button>
+                        </form>
+                        <span class="d-inline-block">{{subject}}</span>
+                    </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="right">
+            {% if student.status == 'REDOVNI' %}
+            {% with ''|center:6 as range %}
+            {% for _ in range %}
+            <p style="color:navy; font-size:25px;">Semestar {{forloop.counter}}:</p>
+            {% for subject in enrolled_subjects %}
+            {% if subject.predmet.sem_redovni == forloop.parentloop.counter %}
+            {% if subject.status == 'POLOZEN' %}
+            <p class="text-success">{{subject.predmet}} - Passed </p>
+            {% else %}
+            <p class="text-danger">{{ subject.predmet }} - Enrolled</p>
+            {% endif %}
+
+            <form action="{%url 'remove_subject' subject_id=subject.predmet_id student_id=student.id %}" method="post">
+                <button>X</button>
+                {% csrf_token %}
+            </form>
+            {% if subject.status == 'NEPOLOZEN' and request.user.role == 'MENTOR' %}
+            <form action="{%url 'subject_passed' subject_id=subject.predmet_id student_id=student.id %}" method="POST">
+                <button>YEEEEEE</button>
+                {% csrf_token %}
+            </form>
+            {% endif %}<br>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endwith %}
+
+            {% else %}
+            {% with ''|center:8 as range %}
+            {% for _ in range %}
+            <br>Semestar {{forloop.counter}}
+            {% for subject in enrolled_subjects %}
+            {% if subject.predmet.sem_izvanredni == forloop.parentloop.counter %}
+            {% if subject.status == 'POLOZEN' %}
+            <p class="text-success">{{subject.predmet}} - Passed </p>
+            {% else %}
+            <p class="text-danger">{{ subject.predmet }} - Enrolled</p>
+            {% endif %}
+            <form method="POST" action="{%url 'remove_subject' subject_id=subject.predmet_id student_id=student.id %}">
+                <button>X</button>
+                {% csrf_token %}
+            </form>
+            {% if subject.status == 'NEPOLOZEN' and request.user.role == 'MENTOR' %}
+            <form action="{%url 'subject_passed' subject_id=subject.predmet_id student_id=student.id %}" method="POST">
+                <button>YEEEEEE</button>
+                {% csrf_token %}
+            </form>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endwith %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

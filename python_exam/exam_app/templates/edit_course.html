@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block content%}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/> 
+
+<h2> Update course </h2>
+
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}<br>
+    <input type="submit" value="Add">
+</form>
+
+{%endblock%}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h2> Course detail </h2>
+<h4>This course enrolled {{enrolls}} students.</h4>
+{% for name in names %}
+{{name}}
+{% endfor %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Programn</th>
+        <th scope="col">Bodovi</th>
+        <th scope="col">Semestar redovni</th>
+        <th scope="col">Semestar sem_izvanredni</th>
+        <th scope="col">Izborni</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in course %}
+    <tr>
+        <th scope="row">{{c.kod}}</th>
+        <td>{{c}}</td>
+        <td> {{c.program}}</td>
+        <td> {{c.bodovi}}</td>
+        <td> {{c.sem_redovni}}</td>
+        <td> {{c.sem_izvanredni}}</td>
+        <td> {{c.izborni}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

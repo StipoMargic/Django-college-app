@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li
+            {% if message.tags %} class="text-{{ message.tags }}" {% endif %}>{{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h2>Add course </h2>
+
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}<br>
+    <input type="submit" value="Add">
+</form>
+
+{% endblock %}

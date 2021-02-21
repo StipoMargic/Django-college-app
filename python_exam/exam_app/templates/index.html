@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if not request.user.is_superuser %}
+<a href="{% url 'indeks' request.user.id %}"> Upisni list </a>
+{% endif %}
+{{enrolls}}
+<h1> Home page </h1>
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
